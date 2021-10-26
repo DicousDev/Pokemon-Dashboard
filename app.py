@@ -14,14 +14,23 @@ def home_page():
 
 @app.route("/procuraPokemon", methods=["POST"])
 def procura_pokemon():
-    pokemon_name = request.get_json()['pokemon'].strip()
-    pokemon_name = pokemon_name.lower()
-    req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}")
-    pokemon_json = json.loads(req.text)
+    name_pokemon_request = json.loads(request.data)["pokemon"]
+    name_pokemon_request = filter_name_pokemon(name_pokemon_request)
+    pokemon = search_pokemon(name_pokemon_request)
 
     response = {}
-    response["sprite"] = pokemon_json['sprites']['front_default']
+    response["sprite"] = pokemon['sprites']['front_default']
 
     return Response(json.dumps(response), status=200, mimetype="application/json")
+
+def search_pokemon(name_pokemon):
+    req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{name_pokemon}")
+    pokemon_json = json.loads(req.text)
+    return pokemon_json
+
+def filter_name_pokemon(name_pokemon):
+    pokemon_name = name_pokemon.strip()
+    pokemon_name = pokemon_name.lower()
+    return pokemon_name
 
 app.run()
