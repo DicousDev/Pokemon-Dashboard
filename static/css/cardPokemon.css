@@ -1,0 +1,58 @@
+.pokemons {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+}
+
+.container {
+    width: 80%;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-row-gap: 50px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 2px;
+    justify-content: center;
+    align-content: center;
+    padding: 50px;
+}
+
+.cardPokemon {
+    background-color: white;
+    width: 230px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 2px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    margin: 0 10px;
+}
+
+.cardPokemon .nomePokemon {
+    padding: 10px;
+    color: rgb(71, 71, 71);
+}
+
+.cardPokemon .detalhes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cardPokemon button {
+    width: 180px;
+    height: 40px;
+    background-color: rgb(255, 30, 0);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: 0.2s;
+}
+
+.cardPokemon button:hover {
+    background-color: rgb(241, 0, 0)
+}

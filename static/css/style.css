@@ -1,0 +1,15 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#e66465, #9198e5); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}

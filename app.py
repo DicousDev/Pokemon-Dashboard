@@ -20,6 +20,7 @@ def procura_pokemon():
 
     response = {}
     response["sprite"] = pokemon['sprites']['front_default']
+    response["name"] = pokemon["name"]
 
     return Response(json.dumps(response), status=200, mimetype="application/json")
 
