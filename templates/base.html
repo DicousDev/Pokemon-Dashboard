@@ -8,7 +8,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <input id='pokemonInput' type='search' placeholder="Pokémon"/>
+    <datalist id="pokemonSugestoes">
+        <option value="pikachu">
+        <option value="bulbasaur">
+        <option value="charmander">
+        <option value="squirtle">
+    </datalist>
+
+    <input id='pokemonInput' type='search' placeholder="Pokémon" list="pokemonSugestoes"/>
     <button onclick="pesquisaPokemon()">Pesquisar</button>
     <br>
     <div id="container"></div>
