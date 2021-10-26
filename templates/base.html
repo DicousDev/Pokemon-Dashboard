@@ -16,10 +16,12 @@
         let pokemonList = [];
 
         function pesquisaPokemon() {
+            const pokemonInput = document.getElementById("pokemonInput");
+
             $.ajax({
                 type: "POST",
                 url: "/procuraPokemon",
-                data: JSON.stringify( {pokemon: "pikachu"} ),
+                data: JSON.stringify( {pokemon: pokemonInput.value} ),
                 contentType: "application/json ; charset=utf-8",
                 success: function(data) {
                     pokemonList = [data];

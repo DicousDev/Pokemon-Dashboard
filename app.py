@@ -14,8 +14,9 @@ def home_page():
 
 @app.route("/procuraPokemon", methods=["POST"])
 def procura_pokemon():
-    body = request.get_json()
-    req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{body['pokemon']}")
+    pokemon_name = request.get_json()['pokemon'].strip()
+    pokemon_name = pokemon_name.lower()
+    req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}")
     pokemon_json = json.loads(req.text)
 
     response = {}
