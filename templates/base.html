@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <input id='pokemonInput' type='search' placeholder="Pokémon"/>
+    <button onclick="pesquisaPokemon()">Pesquisar</button>
+    <br>
+    <div id="container"></div>
+    <script>
+        let pokemonList = [];
+
+        function pesquisaPokemon() {
+            $.ajax({
+                type: "POST",
+                url: "/procuraPokemon",
+                data: JSON.stringify( {pokemon: "pikachu"} ),
+                contentType: "application/json ; charset=utf-8",
+                success: function(data) {
+                    pokemonList = [data];
+                    criaDashboard();
+                }
+            });
+        }
+
+        function criaDashboard() {
+            const container = document.getElementById("container");
+            const divParent = document.createElement("div"); 
+
+            pokemonList.map(pokemon => {
+                const pokemonSprite = document.createElement("img");
+                pokemonSprite.src = pokemon.sprite;
+                pokemonSprite.alt = "pokemon";
+
+                divParent.appendChild(pokemonSprite);
+            });
+
+            container.appendChild(divParent);
+        }
+    </script>
+</body>
+</html>
