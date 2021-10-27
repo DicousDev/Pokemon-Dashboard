@@ -14,6 +14,11 @@ class PokemonService():
         pokemon_json = json.loads(req.text)
         return pokemon_json
 
+    def search_all_pokemon(self):
+        req = requests.get("https://pokeapi.co/api/v2/pokemon?limit=151")
+        pokemon_json = json.loads(req.text)
+        return pokemon_json['results']
+
     def filter_name_pokemon(self, name_pokemon):
         pokemon_name = name_pokemon.strip()
         pokemon_name = pokemon_name.lower()
@@ -21,7 +26,22 @@ class PokemonService():
 
 @app.route("/", methods=["GET"])
 def home_page():
-    return render_template('base.html')
+    service = PokemonService()
+    pokemon_list = service.search_all_pokemon()
+    newListPokemon = []
+
+    for pokemon in pokemon_list:
+        req = requests.get(pokemon["url"])
+        pokemon_json = json.loads(req.text)
+
+        pokemon_obj = {
+            "name": pokemon_json["name"],
+            "sprite": pokemon_json["sprites"]["front_default"]
+        }
+
+        newListPokemon.append(pokemon_obj)
+
+    return render_template('base.html', pokemon_list=newListPokemon)
 
 @app.route("/searchPokemon", methods=["POST"])
 def search_pokemon():
@@ -32,7 +52,7 @@ def search_pokemon():
 
     response = {
         "name": pokemon["name"],
-        "sprite": pokemon['sprites']['front_default']
+        "sprite": pokemon["sprites"]["front_default"]
     }
 
     return Response(json.dumps(response), status=200, mimetype="application/json")

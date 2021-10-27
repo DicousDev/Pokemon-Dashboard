@@ -26,133 +26,17 @@
         </div>
         <div class='pokemons'>
             <div id="container" class="container">
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
+                {% for pokemon in pokemon_list %}
+                    <div class="cardPokemon">
+                        <h3 class="nomePokemon">{{pokemon.name}}</h3>
+                        <div>
+                            <img class="pokemon-sprite" width="96" height="96" src={{pokemon.sprite}} alt="pokemon">
+                        </div>
+                        <div class='detalhes'>
+                            <button>DETALHES</button>
+                        </div>
                     </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                <div class="cardPokemon">
-                    <h3 class="nomePokemon">Pikachu</h3>
-                    <div>
-                        <img class="pokemon-sprite" width="96" height="96" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="pokemon">
-                    </div>
-                    <div class='detalhes'>
-                        <button>DETALHES</button>
-                    </div>
-                </div>
-                
+                {% endfor %}
             </div>
         </div>
     </body>

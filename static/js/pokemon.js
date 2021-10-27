@@ -9,7 +9,6 @@ function searchPokemon() {
         data: JSON.stringify( {pokemon: pokemonInput.value} ),
         contentType: "application/json ; charset=utf-8",
         success: function(data) {
-            // pokemonList = [data];
             renderPokemon([data]);
         }
     });
