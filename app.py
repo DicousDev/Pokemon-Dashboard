@@ -9,15 +9,15 @@ import json
 app = Flask(__name__)
 
 class PokemonService():
-    def search_pokemon(name_pokemon):
+    def search_pokemon(self, name_pokemon):
         req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{name_pokemon}")
         pokemon_json = json.loads(req.text)
         return pokemon_json
 
-    def filter_name_pokemon(name_pokemon):
+    def filter_name_pokemon(self, name_pokemon):
         pokemon_name = name_pokemon.strip()
         pokemon_name = pokemon_name.lower()
-        return pokemon_name        
+        return pokemon_name
 
 @app.route("/", methods=["GET"])
 def home_page():

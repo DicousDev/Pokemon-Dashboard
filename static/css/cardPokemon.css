@@ -5,9 +5,9 @@
 }
 
 .container {
-    width: 80%;
+    width: 90%;
     display: grid;
-    padding: 50px 0;
+    padding: 50px;
     grid-template-columns: auto auto auto auto;
     grid-row-gap: 50px;
     background-color: rgba(255, 255, 255, 0.95);
@@ -19,6 +19,7 @@
 
 .cardPokemon {
     background-color: rgb(255, 255, 255);
+    border: 1px solid blueviolet;
     width: 230px;
     height: 280px;
     display: flex;
@@ -26,7 +27,6 @@
     justify-content: center;
     flex-direction: column;
     border-radius: 2px;
-    box-shadow: 3px 3px 10px rgba(185, 185, 185, 0.8);
     margin: 0 10px;
 }
 
@@ -55,3 +55,10 @@
 .cardPokemon button:hover {
     background-color: rgb(97, 31, 160);
 } 
+
+.pokemon-sprite {
+    /* image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges; */
+    transform: scale(1.5);
+}
