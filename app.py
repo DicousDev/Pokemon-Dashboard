@@ -15,7 +15,7 @@ class PokemonService():
         return pokemon_json
 
     def search_all_pokemon(self):
-        req = requests.get("https://pokeapi.co/api/v2/pokemon?limit=151")
+        req = requests.get("https://pokeapi.co/api/v2/pokemon?limit=16")
         pokemon_json = json.loads(req.text)
         return pokemon_json['results']
 
@@ -56,5 +56,37 @@ def search_pokemon():
     }
 
     return Response(json.dumps(response), status=200, mimetype="application/json")
+
+@app.route("/searchPokemon/<pokemon>", methods=["GET"])
+def search_pokemon_specif(pokemon):
+    service = PokemonService()
+    pokemon_name = service.filter_name_pokemon(pokemon)
+    pokemon_searched = service.search_pokemon(pokemon_name)
+
+    response = {
+        "name": pokemon_searched["name"],
+        "sprite": pokemon_searched["sprites"]["front_default"]
+    }
+
+    return Response(json.dumps(response), status=200, mimetype="application/json")
+
+@app.route("/searchPokemonAll", methods=["GET"])
+def search_pokemon_all():
+    service = PokemonService()
+    pokemon_list = service.search_all_pokemon()
+    newListPokemon = []
+
+    for pokemon in pokemon_list:
+        req = requests.get(pokemon["url"])
+        pokemon_json = json.loads(req.text)
+
+        pokemon_obj = {
+            "name": pokemon_json["name"],
+            "sprite": pokemon_json["sprites"]["front_default"]
+        }
+
+        newListPokemon.append(pokemon_obj)
+
+    return Response(json.dumps(newListPokemon), status=200, mimetype="application/json")
 
 app.run()

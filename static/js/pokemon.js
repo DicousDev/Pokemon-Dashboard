@@ -1,30 +1,42 @@
 let pokemonList = [];
 
 function searchPokemon() {
-    const pokemonInput = document.getElementById("pokemonInput");
+    const pokemonName = document.getElementById("pokemonInput").value;
 
-    $.ajax({
-        type: "POST",
-        url: "/searchPokemon",
-        data: JSON.stringify( {pokemon: pokemonInput.value} ),
-        contentType: "application/json ; charset=utf-8",
-        success: function(data) {
-            renderPokemon([data]);
-        }
-    });
+    if(pokemonName != '') {
+        $.ajax({
+            type: "POST",
+            url: "/searchPokemon",
+            data: JSON.stringify( {pokemon: pokemonName} ),
+            contentType: "application/json ; charset=utf-8",
+            success: function(data) {
+                renderPokemons([data]);
+            }
+        });
+    }
+    else {
+        $.ajax({
+            type: "GET",
+            url: "/searchPokemonAll",
+            contentType: "application/json ; charset=utf-8",
+            success: function(data) {
+                renderPokemons(data);
+            }
+        });
+    }
 }
 
-function renderPokemon(pokemons) {
+function renderPokemons(pokemons) {
     const pokemonContainer = document.getElementById("container");
+    pokemonContainer.innerHTML = '';
 
     pokemons.map(pokemon => {
-        const divPokemon = document.createElement("div");
-        divPokemon.setAttribute("class", "cardPokemon");
-
         const title = createTitle(pokemon.name);
         const sprite = createImage(pokemon.sprite);
         const details = createDetails();
-
+        
+        const divPokemon = document.createElement("div");
+        divPokemon.setAttribute("class", "cardPokemon");
         divPokemon.appendChild(title);
         divPokemon.appendChild(sprite);
         divPokemon.appendChild(details);
