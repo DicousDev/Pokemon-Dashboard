@@ -8,30 +8,33 @@ import json
 
 app = Flask(__name__)
 
+class PokemonService():
+    def search_pokemon(name_pokemon):
+        req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{name_pokemon}")
+        pokemon_json = json.loads(req.text)
+        return pokemon_json
+
+    def filter_name_pokemon(name_pokemon):
+        pokemon_name = name_pokemon.strip()
+        pokemon_name = pokemon_name.lower()
+        return pokemon_name        
+
 @app.route("/", methods=["GET"])
 def home_page():
     return render_template('base.html')
 
-@app.route("/procuraPokemon", methods=["POST"])
-def procura_pokemon():
-    name_pokemon_request = json.loads(request.data)["pokemon"]
-    name_pokemon_request = filter_name_pokemon(name_pokemon_request)
-    pokemon = search_pokemon(name_pokemon_request)
+@app.route("/searchPokemon", methods=["POST"])
+def search_pokemon():
+    service = PokemonService()
+    pokemon_name = json.loads(request.data)["pokemon"]
+    pokemon_name = service.filter_name_pokemon(pokemon_name)
+    pokemon = service.search_pokemon(pokemon_name)
 
-    response = {}
-    response["sprite"] = pokemon['sprites']['front_default']
-    response["name"] = pokemon["name"]
+    response = {
+        "name": pokemon["name"],
+        "sprite": pokemon['sprites']['front_default']
+    }
 
     return Response(json.dumps(response), status=200, mimetype="application/json")
-
-def search_pokemon(name_pokemon):
-    req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{name_pokemon}")
-    pokemon_json = json.loads(req.text)
-    return pokemon_json
-
-def filter_name_pokemon(name_pokemon):
-    pokemon_name = name_pokemon.strip()
-    pokemon_name = pokemon_name.lower()
-    return pokemon_name
 
 app.run()

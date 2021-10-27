@@ -8,7 +8,7 @@
 html, body {
     width: 100%;
     height: 100%;
-    background: linear-gradient(#e66465, #9198e5); 
+    background: linear-gradient(rgb(157, 52, 255), blueviolet, rgb(72, 21, 119));
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
