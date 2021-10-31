@@ -1,5 +1,3 @@
-let pokemonList = [];
-
 function searchPokemon() {
     const pokemonName = document.getElementById("pokemonInput").value;
 
@@ -31,47 +29,14 @@ function renderPokemons(pokemons) {
     pokemonContainer.innerHTML = '';
 
     pokemons.map(pokemon => {
-        const title = createTitle(pokemon.name);
-        const sprite = createImage(pokemon.sprite);
-        const details = createDetails();
-        
-        const divPokemon = document.createElement("div");
-        divPokemon.setAttribute("class", "cardPokemon");
-        divPokemon.appendChild(title);
-        divPokemon.appendChild(sprite);
-        divPokemon.appendChild(details);
-        pokemonContainer.appendChild(divPokemon);
+        pokemonContainer.innerHTML += `
+            <div>
+                <h3 class="nomePokemon">${pokemon.name}</h3>
+                <img src=${pokemon.sprite} width=96 height=96 alt=pokemon/>
+                <div class=detalhes>
+                    <button>DETALHES</button>
+                </div>
+            </div>
+        `
     });
-
-    function createTitle(pokemon_name) {
-        const namePokemon = document.createElement("h3");
-        namePokemon.setAttribute("class", "nomePokemon")
-        namePokemon.innerText = pokemon_name;
-        return namePokemon;
-    }
-
-    function createImage(url_sprite) {
-        const img = document.createElement("img");
-        
-        img.setAttribute("class", "pokemon-sprite");
-        img.src = url_sprite;
-        img.width = "96";
-        img.height = "96";
-        img.alt = "pokemon";
-        
-        const div = document.createElement("div");
-        div.appendChild(img);
-        return div;
-    }
-
-    function createDetails() {
-        const details = document.createElement("button");
-        details.innerText = "DETALHES";
-
-        const div = document.createElement("div");
-        div.setAttribute("class", "detalhes");
-        
-        div.appendChild(details)
-        return div;
-    }
 }
