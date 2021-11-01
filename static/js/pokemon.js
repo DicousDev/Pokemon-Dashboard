@@ -1,3 +1,5 @@
+let pokemons = [];
+
 function searchPokemon() {
     const pokemonName = document.getElementById("pokemonInput").value;
 
@@ -12,14 +14,20 @@ function searchPokemon() {
         });
     }
     else {
-        $.ajax({
-            type: "GET",
-            url: "/searchPokemonAll",
-            contentType: "application/json ; charset=utf-8",
-            success: function(data) {
-                renderPokemons(data);
-            }
-        });
+        if (pokemons.length > 0) {
+            renderPokemons(pokemons);
+        }
+        else {
+            $.ajax({
+                type: "GET",
+                url: "/searchPokemonAll",
+                contentType: "application/json ; charset=utf-8",
+                success: function(data) {
+                    renderPokemons(data);
+                    pokemons = data;
+                }
+            });
+        }
     }
 }
 
