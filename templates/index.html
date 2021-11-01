@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="../static/css/cardPokemon.css"/>
+<link rel="stylesheet" type="text/css" href="../static/css/searchPokemon.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock head %}
+
+{% block content %}
+<datalist id="pokemonSugestoes">
+    <option value="bulbasaur">
+    <option value="charmander">
+    <option value="squirtle">
+</datalist>
+<div class="search-pokemon">
+    <div class="content">
+        <input id='pokemonInput' type='search' placeholder="Digite um nome de Pokémon" list="pokemonSugestoes" autocomplete="on"/>
+        <button onclick="searchPokemon()">Pesquisar</button>
+    </div>
+</div>
+<div class='pokemons'>
+    <div id="container" class="container">
+        {% for pokemon in pokemon_list %}
+            <div class="cardPokemon">
+                <h3 class="nomePokemon">{{pokemon.name}}</h3>
+                <div>
+                    <a href="https://github.com/DicousDev" target="_blank">
+                        <img class="pokemon-sprite" src={{pokemon.sprite_url}} alt="pokemon">
+                    </a>
+                </div>
+                <div class='detalhes'>
+                    <button onclick="details()">DETALHES</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<script src="../static/js/pokemon.js"></script>
+{% endblock content %}

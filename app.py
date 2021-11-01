@@ -52,7 +52,11 @@ def get_process_pokemon_list_json():
 @app.route("/", methods=["GET"])
 def home_page():
     pokemons = get_process_pokemon_list_json()
-    return render_template('base.html', pokemon_list=pokemons)
+    return render_template('index.html', pokemon_list=pokemons)
+
+@app.route("/pokemon/pikachu", methods=["GET"])
+def pokemon_page():
+    return render_template('pokemon.html')
 
 @app.route("/searchPokemon/<pokemon>", methods=["GET"])
 def search_pokemon(pokemon):
