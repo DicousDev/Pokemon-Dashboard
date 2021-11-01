@@ -12,8 +12,17 @@ max_pokemon = 16
 class PokemonService():
     def search_pokemon(self, name_pokemon):
         req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{name_pokemon}")
-        pokemon_json = json.loads(req.text)
-        return pokemon_json
+
+        if req.status_code == 404:
+            return {
+                "status_code": 404,
+                "body": {"message": "Pokémon não encontrado."}
+            }
+        
+        return {
+            "status_code": 200,
+            "body": json.loads(req.text)
+        }
 
     def search_pokemon_all(self):
         req = requests.get(f"https://pokeapi.co/api/v2/pokemon?limit={max_pokemon}")
@@ -61,12 +70,12 @@ def pokemon_page(pokemon):
     pokemon_searched = service.search_pokemon(pokemon_name)
 
     pokemon_json = {
-        "name": pokemon_searched["name"],
-        "sprite_url": pokemon_searched["sprites"]["front_default"],
-        "key": pokemon_searched["id"],
-        "element": pokemon_searched["types"][0]['type']['name'],
-        "experience": pokemon_searched["base_experience"],
-        "moves_total": len(pokemon_searched["moves"])
+        "name": pokemon_searched["body"]["name"],
+        "sprite_url": pokemon_searched["body"]["sprites"]["front_default"],
+        "key": pokemon_searched["body"]["id"],
+        "element": pokemon_searched["body"]["types"][0]['type']['name'],
+        "experience": pokemon_searched["body"]["base_experience"],
+        "moves_total": len(pokemon_searched["body"]["moves"])
     }
 
     return render_template('pokemon.html', pokemon=pokemon_json)
@@ -77,9 +86,11 @@ def search_pokemon(pokemon):
     pokemon_name = service.filter_name_pokemon(pokemon)
     pokemon_searched = service.search_pokemon(pokemon_name)
 
-    pokemon_obj = Pokemon(name=pokemon_searched["name"], sprite_url=pokemon_searched["sprites"]["front_default"])
-    response = pokemon_obj.to_json()
+    if pokemon_searched['status_code'] == 404:
+        return Response(json.dumps(pokemon_searched), status=404, mimetype="application/json")
 
+    pokemon_obj = Pokemon(name=pokemon_searched["body"]["name"], sprite_url=pokemon_searched["body"]["sprites"]["front_default"])
+    response = pokemon_obj.to_json()
     return Response(json.dumps(response), status=200, mimetype="application/json")
 
 @app.route("/searchPokemonAll", methods=["GET"])
