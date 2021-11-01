@@ -31,9 +31,9 @@ function searchPokemon() {
     }
 }
 
-function details() {
-    alert("Details");
-    console.log("Details");
+function details(pokemon_name) {
+    console.log(pokemon_name);
+    window.open(`http://127.0.0.1:5000/${pokemon_name}`);
 }
 
 function renderPokemons(pokemons) {
@@ -45,12 +45,12 @@ function renderPokemons(pokemons) {
             <div class=cardPokemon>
                 <h3 class=nomePokemon>${pokemon.name}</h3>
                 <div>
-                    <a href=https://github.com/DicousDev target=_blank>
+                    <a href=http://127.0.0.1:5000/${pokemon.name} target=_blank>
                         <img class=pokemon-sprite src=${pokemon.sprite_url} alt=pokemon/>
                     </a>
                 </div>
                 <div class=detalhes>
-                    <button onclick="details()">DETALHES</button>
+                    <button onclick=details("${pokemon.name}")>DETALHES</button>
                 </div>
             </div>
         `
