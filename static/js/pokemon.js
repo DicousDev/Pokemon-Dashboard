@@ -23,6 +23,11 @@ function searchPokemon() {
     }
 }
 
+function details() {
+    alert("Details");
+    console.log("Details");
+}
+
 function renderPokemons(pokemons) {
     const pokemonContainer = document.getElementById("container");
     pokemonContainer.innerHTML = '';
@@ -31,9 +36,13 @@ function renderPokemons(pokemons) {
         pokemonContainer.innerHTML += `
             <div class=cardPokemon>
                 <h3 class=nomePokemon>${pokemon.name}</h3>
-                <img src=${pokemon.sprite_url} width=96 height=96 alt=pokemon/>
+                <div>
+                    <a href=https://github.com/DicousDev target=_blank>
+                        <img class=pokemon-sprite src=${pokemon.sprite_url} alt=pokemon/>
+                    </a>
+                </div>
                 <div class=detalhes>
-                    <button>DETALHES</button>
+                    <button onclick="details()">DETALHES</button>
                 </div>
             </div>
         `

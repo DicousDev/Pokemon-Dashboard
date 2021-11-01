@@ -28,10 +28,12 @@
                     <div class="cardPokemon">
                         <h3 class="nomePokemon">{{pokemon.name}}</h3>
                         <div>
-                            <img class="pokemon-sprite" width="96" height="96" src={{pokemon.sprite_url}} alt="pokemon">
+                            <a href="https://github.com/DicousDev" target="_blank">
+                                <img class="pokemon-sprite" src={{pokemon.sprite_url}} alt="pokemon">
+                            </a>
                         </div>
                         <div class='detalhes'>
-                            <button>DETALHES</button>
+                            <button onclick="details()">DETALHES</button>
                         </div>
                     </div>
                 {% endfor %}

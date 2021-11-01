@@ -24,7 +24,7 @@
     height: 280px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: column;
     border-radius: 2px;
     margin: 0 10px;
@@ -36,10 +36,20 @@
     color: blueviolet;
 }
 
+.cardPokemon .pokemon-sprite {
+    width: 96px;
+    height: 96px;
+}
+
+.cardPokemon .pokemon-sprite:hover {
+    opacity: 0.7;
+}
+
 .cardPokemon .detalhes {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: flex-end;
     margin-top: 20px;
 }
 
@@ -58,8 +68,5 @@
 } 
 
 .pokemon-sprite {
-    /* image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges; */
     transform: scale(1.5);
 }
