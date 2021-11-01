@@ -25,9 +25,10 @@
     border: 1px solid blueviolet;
 }
 
-.pokemon-background-sprite h3 {
+.pokemon-background-sprite .pokemon_name {
     color: blueviolet;
     text-align: center;
+    text-transform: capitalize;
 }
 
 .details {

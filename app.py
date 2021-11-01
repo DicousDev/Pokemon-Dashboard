@@ -54,9 +54,22 @@ def home_page():
     pokemons = get_process_pokemon_list_json()
     return render_template('index.html', pokemon_list=pokemons)
 
-@app.route("/pokemon/pikachu", methods=["GET"])
-def pokemon_page():
-    return render_template('pokemon.html')
+@app.route("/<pokemon>", methods=["GET"])
+def pokemon_page(pokemon):
+    service = PokemonService()
+    pokemon_name = service.filter_name_pokemon(pokemon)
+    pokemon_searched = service.search_pokemon(pokemon_name)
+
+    pokemon_json = {
+        "name": pokemon_searched["name"],
+        "sprite_url": pokemon_searched["sprites"]["front_default"],
+        "key": pokemon_searched["id"],
+        "element": pokemon_searched["types"][0]['type']['name'],
+        "experience": pokemon_searched["base_experience"],
+        "moves_total": len(pokemon_searched["moves"])
+    }
+
+    return render_template('pokemon.html', pokemon=pokemon_json)
 
 @app.route("/searchPokemon/<pokemon>", methods=["GET"])
 def search_pokemon(pokemon):
