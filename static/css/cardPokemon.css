@@ -28,6 +28,7 @@
     flex-direction: column;
     border-radius: 2px;
     margin: 0 10px;
+    text-transform: capitalize;
 }
 
 .cardPokemon .nomePokemon {

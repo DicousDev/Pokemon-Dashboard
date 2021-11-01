@@ -3,9 +3,8 @@ function searchPokemon() {
 
     if(pokemonName != '') {
         $.ajax({
-            type: "POST",
-            url: "/searchPokemon",
-            data: JSON.stringify( {pokemon: pokemonName} ),
+            type: "GET",
+            url: `/searchPokemon/${pokemonName}`,
             contentType: "application/json ; charset=utf-8",
             success: function(data) {
                 renderPokemons([data]);
@@ -30,9 +29,9 @@ function renderPokemons(pokemons) {
 
     pokemons.map(pokemon => {
         pokemonContainer.innerHTML += `
-            <div>
-                <h3 class="nomePokemon">${pokemon.name}</h3>
-                <img src=${pokemon.sprite} width=96 height=96 alt=pokemon/>
+            <div class=cardPokemon>
+                <h3 class=nomePokemon>${pokemon.name}</h3>
+                <img src=${pokemon.sprite_url} width=96 height=96 alt=pokemon/>
                 <div class=detalhes>
                     <button>DETALHES</button>
                 </div>

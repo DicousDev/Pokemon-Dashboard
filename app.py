@@ -7,6 +7,7 @@ from werkzeug.wrappers import response
 import json
 
 app = Flask(__name__)
+max_pokemon = 16
 
 class PokemonService():
     def search_pokemon(self, name_pokemon):
@@ -14,8 +15,8 @@ class PokemonService():
         pokemon_json = json.loads(req.text)
         return pokemon_json
 
-    def search_all_pokemon(self):
-        req = requests.get("https://pokeapi.co/api/v2/pokemon?limit=16")
+    def search_pokemon_all(self):
+        req = requests.get(f"https://pokeapi.co/api/v2/pokemon?limit={max_pokemon}")
         pokemon_json = json.loads(req.text)
         return pokemon_json['results']
 
@@ -24,69 +25,49 @@ class PokemonService():
         pokemon_name = pokemon_name.lower()
         return pokemon_name
 
-@app.route("/", methods=["GET"])
-def home_page():
+class Pokemon():
+    def __init__(self, name, sprite_url):
+        self.name = name
+        self.sprite_url = sprite_url
+
+    def to_json(self):
+        return {
+            "name": self.name,
+            "sprite_url": self.sprite_url
+        }
+
+def get_process_pokemon_list_json():
     service = PokemonService()
-    pokemon_list = service.search_all_pokemon()
+    pokemon_list = service.search_pokemon_all()
     newListPokemon = []
 
     for pokemon in pokemon_list:
-        req = requests.get(pokemon["url"])
+        req = requests.get(url=pokemon["url"])
         pokemon_json = json.loads(req.text)
+        pokemon_obj = Pokemon(name=pokemon_json["name"], sprite_url=pokemon_json["sprites"]["front_default"])
 
-        pokemon_obj = {
-            "name": pokemon_json["name"],
-            "sprite": pokemon_json["sprites"]["front_default"]
-        }
+        newListPokemon.append(pokemon_obj.to_json())
+    return newListPokemon
 
-        newListPokemon.append(pokemon_obj)
-
-    return render_template('base.html', pokemon_list=newListPokemon)
-
-@app.route("/searchPokemon", methods=["POST"])
-def search_pokemon():
-    service = PokemonService()
-    pokemon_name = json.loads(request.data)["pokemon"]
-    pokemon_name = service.filter_name_pokemon(pokemon_name)
-    pokemon = service.search_pokemon(pokemon_name)
-
-    response = {
-        "name": pokemon["name"],
-        "sprite": pokemon["sprites"]["front_default"]
-    }
-
-    return Response(json.dumps(response), status=200, mimetype="application/json")
+@app.route("/", methods=["GET"])
+def home_page():
+    pokemons = get_process_pokemon_list_json()
+    return render_template('base.html', pokemon_list=pokemons)
 
 @app.route("/searchPokemon/<pokemon>", methods=["GET"])
-def search_pokemon_specif(pokemon):
+def search_pokemon(pokemon):
     service = PokemonService()
     pokemon_name = service.filter_name_pokemon(pokemon)
     pokemon_searched = service.search_pokemon(pokemon_name)
-    
-    response = {
-        "name": pokemon_searched["name"],
-        "sprite": pokemon_searched["sprites"]["front_default"]
-    }
+
+    pokemon_obj = Pokemon(name=pokemon_searched["name"], sprite_url=pokemon_searched["sprites"]["front_default"])
+    response = pokemon_obj.to_json()
 
     return Response(json.dumps(response), status=200, mimetype="application/json")
 
 @app.route("/searchPokemonAll", methods=["GET"])
 def search_pokemon_all():
-    service = PokemonService()
-    pokemon_list = service.search_all_pokemon()
-    newListPokemon = []
-
-    for pokemon in pokemon_list:
-        req = requests.get(pokemon["url"])
-        pokemon_json = json.loads(req.text)
-
-        pokemon_obj = {
-            "name": pokemon_json["name"],
-            "sprite": pokemon_json["sprites"]["front_default"]
-        }
-
-        newListPokemon.append(pokemon_obj)
-
-    return Response(json.dumps(newListPokemon), status=200, mimetype="application/json")
+    pokemons = get_process_pokemon_list_json()
+    return Response(json.dumps(pokemons), status=200, mimetype="application/json")
 
 app.run()
