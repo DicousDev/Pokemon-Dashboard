@@ -20,10 +20,12 @@ function searchPokemon() {
     }
 
     if (pokemons.length > 0) {
+        console.log("pokemons.length > 0");
         renderPokemons(pokemons);
         return;
     }
-
+    
+    console.log("GET");
     $.ajax({
         type: "GET",
         url: "/searchPokemonAll",

@@ -7,11 +7,13 @@ from werkzeug.wrappers import response
 import json
 
 app = Flask(__name__)
-max_pokemon = 16
+max_pokemon = 151
+pokemon_list = []
 
 class PokemonService():
     def search_pokemon(self, name_pokemon):
-        req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{name_pokemon}")
+        pokemon = self.filter_name_pokemon(name_pokemon) 
+        req = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon}")
 
         if req.status_code == 404:
             return {
@@ -60,14 +62,18 @@ def get_process_pokemon_list_json():
 
 @app.route("/", methods=["GET"])
 def home_page():
+    global pokemon_list
+    if len(pokemon_list) > 0:
+        return render_template('index.html', pokemon_list=pokemon_list)
+
     pokemons = get_process_pokemon_list_json()
+    pokemon_list = pokemons
     return render_template('index.html', pokemon_list=pokemons)
 
 @app.route("/<pokemon>", methods=["GET"])
 def pokemon_page(pokemon):
     service = PokemonService()
-    pokemon_name = service.filter_name_pokemon(pokemon)
-    pokemon_searched = service.search_pokemon(pokemon_name)
+    pokemon_searched = service.search_pokemon(pokemon)
 
     if pokemon_searched['status_code'] == 404:
         return render_template("pokemonNotFound.html", pokemon=pokemon)
@@ -86,8 +92,7 @@ def pokemon_page(pokemon):
 @app.route("/searchPokemon/<pokemon>", methods=["GET"])
 def search_pokemon(pokemon):
     service = PokemonService()
-    pokemon_name = service.filter_name_pokemon(pokemon)
-    pokemon_searched = service.search_pokemon(pokemon_name)
+    pokemon_searched = service.search_pokemon(pokemon)
 
     if pokemon_searched['status_code'] == 404:
         return Response(json.dumps(pokemon_searched), status=404, mimetype="application/json")
@@ -98,7 +103,11 @@ def search_pokemon(pokemon):
 
 @app.route("/searchPokemonAll", methods=["GET"])
 def search_pokemon_all():
-    pokemons = get_process_pokemon_list_json()
-    return Response(json.dumps(pokemons), status=200, mimetype="application/json")
+    global pokemon_list
+    if len(pokemon_list) > 0:
+        return Response(json.dumps(pokemon_list), status=200, mimetype="application/json")
 
+    pokemons = get_process_pokemon_list_json()
+    pokemon_list = pokemons 
+    return Response(json.dumps(pokemons), status=200, mimetype="application/json")
 app.run()
