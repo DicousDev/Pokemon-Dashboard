@@ -9,30 +9,30 @@ function searchPokemon() {
             url: `/searchPokemon/${pokemonName}`,
             contentType: "application/json ; charset=utf-8",
             success: function(data) {
-                console.log(data);
                 renderPokemons([data]);
             },
             error: function(data) {
                 pokemonNotFound();
             }
         });
+
+        return;
     }
-    else {
-        if (pokemons.length > 0) {
-            renderPokemons(pokemons);
-        }
-        else {
-            $.ajax({
-                type: "GET",
-                url: "/searchPokemonAll",
-                contentType: "application/json ; charset=utf-8",
-                success: function(data) {
-                    renderPokemons(data);
-                    pokemons = data;
-                }
-            });
-        }
+
+    if (pokemons.length > 0) {
+        renderPokemons(pokemons);
+        return;
     }
+
+    $.ajax({
+        type: "GET",
+        url: "/searchPokemonAll",
+        contentType: "application/json ; charset=utf-8",
+        success: function(data) {
+            renderPokemons(data);
+            pokemons = data;
+        }
+    });
 }
 
 function pokemonNotFound() {
@@ -48,7 +48,6 @@ function pokemonNotFound() {
 }
 
 function details(pokemon_name) {
-    console.log(pokemon_name);
     window.open(`http://127.0.0.1:5000/${pokemon_name}`);
 }
 

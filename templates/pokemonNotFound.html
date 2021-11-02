@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .background {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .background-error {
+        width: 500px;
+        height: 200px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .background-error h3 {
+        text-align: center;
+    }
+
+    .voltar {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .voltar a {
+        text-decoration: none;
+        color: white;
+        background-color: blueviolet;
+        padding: 10px 100px;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="background">
+    <div class="background-error">
+        <h3>O pokémon "{{pokemon}}" não foi encontrado. Tente novamente!</h3>
+        <div class="voltar">
+            <a href="http://127.0.0.1:5000/">VOLTAR</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

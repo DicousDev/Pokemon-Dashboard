@@ -69,6 +69,9 @@ def pokemon_page(pokemon):
     pokemon_name = service.filter_name_pokemon(pokemon)
     pokemon_searched = service.search_pokemon(pokemon_name)
 
+    if pokemon_searched['status_code'] == 404:
+        return render_template("pokemonNotFound.html", pokemon=pokemon)
+
     pokemon_json = {
         "name": pokemon_searched["body"]["name"],
         "sprite_url": pokemon_searched["body"]["sprites"]["front_default"],

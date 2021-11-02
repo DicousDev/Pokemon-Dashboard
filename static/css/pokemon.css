@@ -10,8 +10,8 @@
 .pokemon-background {
     width: 700px;
     background-color: white;
-    padding: 10px;
-    border-radius: 2px;
+    padding: 50px;
+    border-radius: 20px;
     display: flex;
 }
 
@@ -47,4 +47,7 @@
 .voltar a {
     text-decoration: none;
     padding-right: 10px;
+    background-color: blueviolet;
+    color: white;
+    padding: 10px 50px;
 }
