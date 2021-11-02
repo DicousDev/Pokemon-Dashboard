@@ -33,8 +33,7 @@ git clone https://github.com/DicousDev/Pokemon-Dashboard.git && cd Pokemon-Dashb
 ### Dependências
 ```bash
 # Instale as dependências necessárias
-pip install Flask
-pip install requests
+pip install -r requirements.txt
 
 # Rode o projeto
 Abra o arquivo nomeado app.py

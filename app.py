@@ -1,12 +1,15 @@
+from dotenv import load_dotenv
 from flask import Flask, Response, request, url_for
-import requests
 from flask.templating import render_template
 from werkzeug.sansio.request import Request
 from werkzeug.utils import redirect
 from werkzeug.wrappers import response
+import requests
 import json
+import os
 
 app = Flask(__name__)
+config = load_dotenv(".env") #load env variables to avoid hardcoding stuff
 max_pokemon = 151
 pokemon_list = []
 
@@ -110,4 +113,5 @@ def search_pokemon_all():
     pokemons = get_process_pokemon_list_json()
     pokemon_list = pokemons 
     return Response(json.dumps(pokemons), status=200, mimetype="application/json")
-app.run()
+
+app.run(host = os.getenv('HOST'), port = os.getenv('PORT'))
