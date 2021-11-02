@@ -1,39 +1,41 @@
 let pokemons = [];
+const baseUrl = "http://127.0.0.1:5000/";
 
 function searchPokemon() {
     const pokemonName = document.getElementById("pokemonInput").value;
 
     if(pokemonName != '') {
-        $.ajax({
-            type: "GET",
-            url: `/searchPokemon/${pokemonName}`,
-            contentType: "application/json ; charset=utf-8",
-            success: function(data) {
+        fetch(`/searchPokemon/${pokemonName}`)
+        .then(response => {
+            response.json()
+            .then(data => {
+                if(data.status_code == 404) {
+                    pokemonNotFound();
+                    return;
+                }
+
                 renderPokemons([data]);
-            },
-            error: function(data) {
-                pokemonNotFound();
-            }
-        });
+            })
+        })
+        .catch(e => {
+            console.log(e.message)
+        })
 
         return;
     }
 
     if (pokemons.length > 0) {
-        console.log("pokemons.length > 0");
         renderPokemons(pokemons);
         return;
     }
-    
-    console.log("GET");
-    $.ajax({
-        type: "GET",
-        url: "/searchPokemonAll",
-        contentType: "application/json ; charset=utf-8",
-        success: function(data) {
+
+    fetch(`/searchPokemonAll`)
+    .then(response => {
+        response.json()
+        .then(data => {
             renderPokemons(data);
             pokemons = data;
-        }
+        })
     });
 }
 
@@ -50,7 +52,7 @@ function pokemonNotFound() {
 }
 
 function details(pokemon_name) {
-    window.open(`http://127.0.0.1:5000/${pokemon_name}`);
+    window.open(baseUrl + pokemon_name);
 }
 
 function renderPokemons(pokemons) {
@@ -62,7 +64,7 @@ function renderPokemons(pokemons) {
             <div class=cardPokemon>
                 <h3 class=nomePokemon>${pokemon.name}</h3>
                 <div>
-                    <a href=http://127.0.0.1:5000/${pokemon.name} target=_blank>
+                    <a href=${baseUrl + pokemon.name} target=_blank>
                         <img class=pokemon-sprite src=${pokemon.sprite_url} alt=pokemon/>
                     </a>
                 </div>
