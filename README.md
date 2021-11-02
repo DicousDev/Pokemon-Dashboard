@@ -7,13 +7,15 @@
 <img src="./public/PokemonDetalhes.gif"/>
 
 ## Tecnologias
-✔ HTML
+✔ Html
 
-✔ CSS
+✔ Css
 
-✔ JAVASCRIPT
+✔ Javascript
 
-✔ PYTHON
+✔ Python
+
+✔ Consumo da API Rest PokéAPI
 
 ## 💻 Instalação
 
