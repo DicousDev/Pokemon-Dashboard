@@ -22,7 +22,7 @@
 ### Requirementos
 
 - Você precisa instalar <a href="https://www.python.org/downloads/">Python</a> para rodar o projeto 
-- A extensão Python tem que ser instalada para rodar o servidor
+- A extensão Python tem que ser baixada para poder rodar o servidor
 
 **Clona o projeto e acesse a pasta**
 
