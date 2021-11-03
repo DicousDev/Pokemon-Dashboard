@@ -43,10 +43,15 @@
         return cardNode;
     }
 
+    // Update view with content nodes
+    const updateView = (newContent) => {
+        const viewContainer = document.getElementById('container');
+        // Replace all view content with new content
+        viewContainer.replaceChildren(newContent);
+    }
+
     // Update the main view with multiple card nodes
     const updateViewWithPokemonCardNodes = (nodes = []) => {
-        const viewContainer = document.getElementById('container');
-
         // Creates a fragment to hold all of our nodes
         // See "Usage notes": https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
         const fragment = new DocumentFragment();
@@ -55,13 +60,11 @@
         });
 
         // Append card nodes to the view
-        viewContainer.replaceChildren(fragment);
+        updateView(fragment);
     }
 
     // Update the main view with the provided error message
     const updateViewWithError = (msg) => {
-        const viewContainer = document.getElementById('container');
-
         // Creates a fragment to hold all of our nodes
         // See "Usage notes": https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
         const fragment = new DocumentFragment();
@@ -74,7 +77,7 @@
         fragment.appendChild(divNode);
 
         // Append card node to the view
-        viewContainer.replaceChildren(fragment);
+        updateView(fragment);
     }
 
     // Set up event listener for search form

@@ -11,7 +11,7 @@ import os
 config = load_dotenv(".env") #load env variables to avoid hardcoding stuff
 
 class PokemonApiClient():
-    def __init__(self, api_url, max_pokemon = 5):
+    def __init__(self, api_url, max_pokemon = 151):
         self.api_url = api_url
         self.max_pokemon = max_pokemon # Allows for custom value to be defined when new client is instantiated 
         self.pokemon_list_cache = [] # Cache the API respose so repeated requests are retrieved from cache
@@ -69,7 +69,7 @@ pokemonApiClient = PokemonApiClient(os.getenv('POKEAPI_URL'));
 # Return the index page
 @app.route("/", methods=["GET"])
 def home_page():
-    return render_template('index.html')
+    return render_template('index.html', base_url='http://' + os.getenv('HOST') + ':' + os.getenv('PORT'))
 
 # Return page for the requested pokemon 
 @app.route("/pokemon/<name>", methods=["GET"])

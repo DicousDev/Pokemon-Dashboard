@@ -20,8 +20,9 @@
 </div>
 <div class='pokemons'>
     <div id="container" class="container">
-        <span class="loading">Carregando lista...</span>
+        <span class="loading">Carregando lista. Isso pode levar alguns segundos...</span>
     </div>
+    <div id="search"></div>
 </div>
 
 <template>
@@ -37,6 +38,6 @@
         </div>
     </div>  
 </template>
-<script>window.base_url = "http://127.0.0.1:5000"</script>
+<script>window.base_url = "{{ base_url }}"</script>
 <script src="../static/js/pokemon.js"></script>
 {% endblock content %}
