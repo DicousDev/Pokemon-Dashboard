@@ -27,12 +27,10 @@
 
 .details {
     padding-left: 10px;
-    display: flex;
-    flex-direction: column;
-    line-height: 20px;
+    list-style: none;
 }
 
-.details label {
+.details li {
     width: 150px;
     color: blueviolet;
 }
