@@ -11,13 +11,13 @@ import os
 config = load_dotenv(".env") #load env variables to avoid hardcoding stuff
 
 class PokemonApiClient():
-    def __init__(self, api_url, max_pokemon = 151):
+    def __init__(self, api_url, max_pokemon = 5):
         self.api_url = api_url
         self.max_pokemon = max_pokemon # Allows for custom value to be defined when new client is instantiated 
         self.pokemon_list_cache = [] # Cache the API respose so repeated requests are retrieved from cache
 
-    def get_by_name(self, name_pokemon):
-        pokemon = self.filter_name_pokemon(name_pokemon) 
+    def get_by_name(self, name):
+        pokemon = self.filter_name_pokemon(name) 
         req = requests.get(f"{self.api_url}/{pokemon}")
 
         if req.status_code == 200:
@@ -71,40 +71,50 @@ pokemonApiClient = PokemonApiClient(os.getenv('POKEAPI_URL'));
 def home_page():
     return render_template('index.html')
 
-# Return a JSON list of all pokemons
-@app.route("/pokemon/all", methods=["GET"])
-def pokemon_api_get_all():
-    return Response(json.dumps(pokemonApiClient.get_all()), status=200, mimetype="application/json")
-
 # Return page for the requested pokemon 
-@app.route("/pokemon/<pokemon>", methods=["GET"])
+@app.route("/pokemon/<name>", methods=["GET"])
 def pokemon_page(name):
     result = pokemonApiClient.get_by_name(name)
 
     if result != False:
         response = {
-            "name": result["body"]["name"],
-            "sprite_url": result["body"]["sprites"]["front_default"],
-            "key": result["body"]["id"],
-            "element": result["body"]["types"][0]['type']['name'],
-            "experience": result["body"]["base_experience"],
-            "moves_total": len(result["body"]["moves"])
+            "name": result["name"],
+            "sprite_url": result["sprites"]["front_default"],
+            "key": result["id"],
+            "element": result["types"][0]['type']['name'],
+            "experience": result["base_experience"],
+            "moves_total": len(result["moves"])
         }
 
         return render_template('pokemon.html', pokemon=response)
         
     return render_template("pokemonNotFound.html", pokemon=name)    
 
-@app.route("/searchPokemon/<pokemon>", methods=["GET"])
+# Return a JSON list of all pokemons
+@app.route("/api/pokemon/all", methods=["GET"])
+def pokemon_api_get_all():
+    return Response(json.dumps(pokemonApiClient.get_all()), status=200, mimetype="application/json")
+
+@app.route("/api/pokemon/<pokemon>", methods=["GET"])
 def search_pokemon(pokemon):
-    service = PokemonApiClient()
-    pokemon_searched = service.search_pokemon(pokemon)
+    result = pokemonApiClient.get_by_name(pokemon);
 
-    if pokemon_searched['status_code'] == 404:
-        return Response(json.dumps(pokemon_searched), status=404, mimetype="application/json")
+    if result != False:
+        response = {
+            "name": result["name"],
+            "sprite_url": result["sprites"]["front_default"],
+            "key": result["id"],
+            "element": result["types"][0]['type']['name'],
+            "experience": result["base_experience"],
+            "moves_total": len(result["moves"])
+        }
+        return Response(json.dumps(response), status=200, mimetype="application/json")
+    
+    else :
+        response = {
+            "msg": "O pokémon não foi encontrado"
+        }
 
-    pokemon_obj = Pokemon(name=pokemon_searched["body"]["name"], sprite_url=pokemon_searched["body"]["sprites"]["front_default"])
-    response = pokemon_obj.to_json()
-    return Response(json.dumps(response), status=200, mimetype="application/json")
+    return Response(json.dumps(response), status=404, mimetype="application/json")
 
 app.run(host = os.getenv('HOST'), port = os.getenv('PORT'))
