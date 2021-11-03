@@ -1,19 +1,27 @@
 // Creates a context to avoid exposing functions and variables to the global scope
 (() => {
-    
-    function pokemonNotFound() {
-        const searchInput = document.getElementById("pokemonInput");
-        const pokemonContainer = document.getElementById("container");
-        pokemonContainer.innerHTML = `
-            <div>
-                <h3>O pokémon "${searchInput.value}" não foi encontrado. Tente novamente!</h3>
-            </div>
-        `;
-    
-        searchInput.value = '';
+
+    // Generic function to handle response from fetch requests
+    const handleFetchResponse = (response) => {
+        if (!response.ok) {
+            return response.json()
+                .catch(() => {
+                    // Couldn't parse the JSON
+                    throw new Error(response.status);
+                })
+                .then(({ msg }) => {
+                    // Got valid JSON with error response, use it
+                    throw new Error(msg || response.status);
+                });
+        }
+        // Successful response, parse the JSON and return the data
+        return response.json();
     }
 
-    const renderPokemonCardNode = (pokemon, template) => {
+    // Render a card based on the template provided
+    const renderPokemonCardNode = (pokemon) => {
+        const template = document.getElementsByTagName("template")[0];
+
         // Clone the template so we can modify it safely
         const cardNode = template.content.cloneNode(true);
 
@@ -35,6 +43,7 @@
         return cardNode;
     }
 
+    // Update the main view with multiple card nodes
     const updateViewWithPokemonCardNodes = (nodes = []) => {
         const viewContainer = document.getElementById('container');
 
@@ -49,7 +58,7 @@
         viewContainer.replaceChildren(fragment);
     }
 
-    
+    // Update the main view with the provided error message
     const updateViewWithError = (msg) => {
         const viewContainer = document.getElementById('container');
 
@@ -57,65 +66,58 @@
         // See "Usage notes": https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
         const fragment = new DocumentFragment();
         
-        const errorNode = document.createElement('p');
+        const divNode = document.createElement('div');
+        const errorNode = document.createElement('h3');
         errorNode.textContent = msg;
-        fragment.appendChild(errorNode);
 
-        // Append card nodes to the view
+        divNode.appendChild(errorNode);
+        fragment.appendChild(divNode);
+
+        // Append card node to the view
         viewContainer.replaceChildren(fragment);
     }
 
+    // Set up event listener for search form
     const searchPokemonEventListener = () => {
         document.getElementById('search').addEventListener('click', () => {
             const query = document.getElementById("pokemonInput").value;
 
             if(!!query){
                 fetch(`api/pokemon/${query}`)
-                    .then((response) => {
-                        if (response.status >= 200 && response.status <= 299) {
-                            return response.json();
-                          } else {
-                            throw Error(response.statusText);
-                          }
-                    })
+                    .then((response) => handleFetchResponse(response))
                     .then((pokemon) => {
                         console.log('pokemon', pokemon);
-                        const pokemonCardTemplate = document.getElementsByTagName("template")[0];
-                        const node = renderPokemonCardNode(pokemon, pokemonCardTemplate);
+
+                        const node = renderPokemonCardNode(pokemon);
                         updateViewWithPokemonCardNodes([node]);
                     })
                     .catch((error) => {
                         console.log(error);
-                        updateViewWithError(error.msg);
+                        updateViewWithError(error);
+                    })
+                    .finally(() => {
+                        // Always clear search input
+                        const searchInput = document.getElementById("pokemonInput");
+                        searchInput.value = '';
                     });
             }
         });
     }
+    
+    // Attach event listener
+    searchPokemonEventListener();
+
     // Initialize the app by loading the initial list of pokemons from the server
-    // Attach event listener to search form
-    const init = () => {
-        searchPokemonEventListener();
-
-        fetch('api/pokemon/all')
-            .then((response) => {
-                if (response.status >= 200 && response.status <= 299) {
-                    return response.json();
-                } else {
-                    throw Error(response.statusText);
-                }
-            })
-            .then((pokemonsList) => {
-                console.log('pokemonsList', pokemonsList);
-                
-                const pokemonCardTemplate = document.getElementsByTagName("template")[0];
-                const cardNodes = pokemonsList.map((pokemon) => renderPokemonCardNode(pokemon, pokemonCardTemplate));
-                updateViewWithPokemonCardNodes(cardNodes);
-            })  
-            .catch((error) => {
-                console.log(error);
-                updateViewWithError(error.msg);
-            });
-    }
-
-    init();
+    fetch('api/pokemon/all')
+        .then((response) => handleFetchResponse(response))
+        .then((pokemonsList) => {
+            console.log('pokemonsList', pokemonsList);
+            
+            const cardNodes = pokemonsList.map(renderPokemonCardNode);
+            updateViewWithPokemonCardNodes(cardNodes);
+        })  
+        .catch((error) => {
+            console.log(error);
+            updateViewWithError(error);
+        });
 })()
